@@ -1,0 +1,19 @@
+ · Enter the Master API URL: https://api.ocp-ap1.prod.nextcle.com:6443
+ · Enter the Cluster ID: 8671d745-ae81-4571-9b98-5091a3ffbcae
+ · Enter the Wildcard Domain: apps.ocp-ap1.prod.nextcle.com
+ · Enter the Nexus Host: nexus-common.apps.ocp-ap1.prod.nextcle.com
+ · Enter the Developer User name: swapnil-kulkarni-persistent-com
+ · Enter the Developer User Password: f9639f7290504ff6949f532ba6a876f1
+ · Enter the GitHub Account Name: coolsvap
+ · Enter the Quay.io Account Name: coolsvap
+
+You entered:
+ · Master API URL:			https://api.ocp-ap1.prod.nextcle.com:6443
+ · Cluster ID:				8671d745-ae81-4571-9b98-5091a3ffbcae
+ · Wildcard Domain:			apps.ocp-ap1.prod.nextcle.com
+ · Nexus Server Host:			nexus-common.apps.ocp-ap1.prod.nextcle.com
+ · Developer User Name:			swapnil-kulkarni-persistent-com
+ · Developer User Password:		f9639f7290504ff6949f532ba6a876f1
+ · GitHub Account Name:			coolsvap
+ · Quay.io Account Name:		coolsvap
+
