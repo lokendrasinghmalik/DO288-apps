@@ -1,0 +1,35 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  creationTimestamp: '2020-07-17T07:21:56Z'
+  generation: 2
+  name: wait-for-deployment
+  namespace: demo-pipeline
+  resourceVersion: '120163828'
+  selfLink: /apis/tekton.dev/v1beta1/namespaces/demo-pipeline/tasks/wait-for-deployment
+  uid: a9a12a7d-d058-4a0a-aafb-29182a863037
+spec:
+  params:
+    - name: app_name
+      type: string
+    - name: dev_project
+      type: string
+  steps:
+    - args:
+        - >-
+          echo Verify pod deployment for $(inputs.params.app_name);
+
+          while true; do pods=$(oc get pods -l
+          deployment=$(inputs.params.app_name) -n $(inputs.params.dev_project)
+          ); if [ -z "$pods" ];then echo "Waiting for pods to be created...";
+          sleep 20; continue;fi; pod_status=$(oc get pods -l
+          deployment=$(inputs.params.app_name) -n $(inputs.params.dev_project) |
+          awk 'FNR>1 {print $3}'); echo "Pod status: $pod_status";  if ! grep
+          -qv 'Running'<<<"$$pod_status";then echo 'Deployment pods are
+          ready.';break;else sleep 10;fi done
+      command:
+        - /bin/bash
+        - '-c'
+      image: 'quay.io/openshift/origin-cli:latest'
+      name: wait-for-deployment
+      resources: {}
