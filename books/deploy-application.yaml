@@ -1,0 +1,44 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  creationTimestamp: '2020-07-17T07:14:24Z'
+  generation: 3
+  name: deploy-application
+  namespace: demo-pipeline
+  resourceVersion: '120159180'
+  selfLink: /apis/tekton.dev/v1beta1/namespaces/demo-pipeline/tasks/deploy-application
+  uid: 4bc650a8-2d50-4c83-9479-c0b89c43825f
+spec:
+  params:
+    - name: app_name
+      type: string
+    - name: dev_project
+      type: string
+  resources:
+    inputs:
+      - name: image
+        type: image
+  steps:
+    - args:
+        - >-
+          echo '### Cleaning existing resources in DEV env ###'
+
+          oc project $(inputs.params.dev_project)
+
+          oc delete all -l app=$(inputs.params.app_name)
+
+          sleep 5
+
+
+          echo '### Creating a new app in DEV env ###'
+
+          oc new-app --name $(inputs.params.app_name) -i
+          $(inputs.params.app_name)
+
+          oc expose svc/$(inputs.params.app_name)
+      command:
+        - /bin/bash
+        - '-c'
+      image: 'quay.io/openshift/origin-cli:latest'
+      name: deploy
+      resources: {}
