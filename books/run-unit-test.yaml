@@ -1,0 +1,45 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  creationTimestamp: '2020-07-16T09:12:29Z'
+  generation: 3
+  name: run-unit-test
+  namespace: demo-pipeline
+  resourceVersion: '118588838'
+  selfLink: /apis/tekton.dev/v1beta1/namespaces/demo-pipeline/tasks/run-unit-test
+  uid: 6ecb7204-91bc-4689-928c-4a61034a5dae
+spec:
+  resources:
+    inputs:
+      - name: git-repo
+        type: git
+      - name: image
+        type: image
+  steps:
+    - args:
+        - npm install
+      command:
+        - /bin/sh
+        - '-c'
+      image: $(inputs.resources.image.url)
+      name: install
+      resources: {}
+      workingDir: /workspace/git-repo/books
+    - args:
+        - npm test
+      command:
+        - /bin/sh
+        - '-c'
+      image: $(inputs.resources.image.url)
+      name: unit-test
+      resources: {}
+      workingDir: /workspace/git-repo/books
+    - args:
+        - npm run lint
+      command:
+        - /bin/sh
+        - '-c'
+      image: $(inputs.resources.image.url)
+      name: linting
+      resources: {}
+      workingDir: /workspace/git-repo/books
