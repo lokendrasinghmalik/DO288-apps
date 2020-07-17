@@ -1,0 +1,42 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  creationTimestamp: '2020-07-17T07:41:12Z'
+  generation: 5
+  name: deploy-to-stage
+  namespace: demo-pipeline
+  resourceVersion: '120203431'
+  selfLink: /apis/tekton.dev/v1beta1/namespaces/demo-pipeline/tasks/deploy-to-stage
+  uid: 7ab43418-7cd8-44dc-b7aa-6e62070e8f82
+spec:
+  params:
+    - name: app_name
+      type: string
+    - name: stage_project
+      type: string
+  steps:
+    - args:
+        - >-
+          echo '### Cleaning existing resources in Staging ###'
+
+          oc project $(inputs.params.stage_project)
+
+          oc delete all -l app=$(inputs.params.app_name)
+
+          sleep 5
+
+
+          echo '### Creating new app in Staging ###'
+
+          oc project $(inputs.params.stage_project)
+
+          oc new-app --name $(inputs.params.app_name) -i
+          $(inputs.params.app_name):stage
+
+          oc expose svc/$(inputs.params.app_name)
+      command:
+        - /bin/bash
+        - '-c'
+      image: 'quay.io/openshift/origin-cli:latest'
+      name: deploy
+      resources: {}
