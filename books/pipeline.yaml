@@ -1,0 +1,89 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  creationTimestamp: '2020-07-14T05:03:24Z'
+  generation: 23
+  name: build-and-deploy
+  namespace: demo-pipeline
+  resourceVersion: '120199065'
+  selfLink: /apis/tekton.dev/v1beta1/namespaces/demo-pipeline/pipelines/build-and-deploy
+  uid: d182b0cd-30e8-4c3e-b430-81d7c4d64a9f
+spec:
+  params:
+    - default: ''
+      description: name of application
+      name: app_name
+      type: string
+    - default: ''
+      description: Development project name
+      name: dev_project
+      type: string
+    - default: ''
+      description: Staging project name
+      name: stage_project
+      type: string
+  resources:
+    - name: git-repo
+      type: git
+    - name: image
+      type: image
+  tasks:
+    - name: deploy-application
+      params:
+        - name: app_name
+          value: books
+        - name: dev_project
+          value: demo-pipeline
+      resources:
+        inputs:
+          - name: image
+            resource: image
+      taskRef:
+        kind: Task
+        name: deploy-application
+    - name: wait-for-deployment
+      params:
+        - name: app_name
+          value: books
+        - name: dev_project
+          value: demo-pipeline
+      runAfter:
+        - deploy-application
+      taskRef:
+        kind: Task
+        name: wait-for-deployment
+    - name: promote-to-stage
+      params:
+        - name: dev_project
+          value: demo-pipeline
+        - name: stage_project
+          value: loken-stage
+        - name: app_name
+          value: books
+      runAfter:
+        - wait-for-deployment
+      taskRef:
+        kind: Task
+        name: promote-to-stage
+    - name: deploy-to-stage
+      params:
+        - name: app_name
+          value: books
+        - name: stage_project
+          value: loken-stage
+      runAfter:
+        - promote-to-stage
+      taskRef:
+        kind: Task
+        name: deploy-to-stage
+    - name: wait-for-stage-deployment
+      params:
+        - name: app_name
+          value: books
+        - name: stage_project
+          value: loken-stage
+      runAfter:
+        - deploy-to-stage
+      taskRef:
+        kind: Task
+        name: wait-for-stage-deployment
