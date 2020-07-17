@@ -1,0 +1,29 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  creationTimestamp: '2020-07-17T07:40:00Z'
+  generation: 1
+  name: promote-to-stage
+  namespace: demo-pipeline
+  resourceVersion: '120180860'
+  selfLink: /apis/tekton.dev/v1beta1/namespaces/demo-pipeline/tasks/promote-to-stage
+  uid: 011a103a-a358-46a1-bff8-f1e85e8fe988
+spec:
+  params:
+    - name: dev_project
+      type: string
+    - name: stage_project
+      type: string
+    - name: app_name
+      type: string
+  steps:
+    - args:
+        - >-
+          oc tag $(inputs.params.dev_project)/$(inputs.params.app_name):latest
+          $(inputs.params.stage_project)/$(inputs.params.app_name):stage
+      command:
+        - /bin/bash
+        - '-c'
+      image: 'quay.io/openshift/origin-cli:latest'
+      name: promote-to-stage
+      resources: {}
