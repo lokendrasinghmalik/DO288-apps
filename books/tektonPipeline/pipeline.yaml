@@ -1,13 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  creationTimestamp: '2020-07-14T05:03:24Z'
-  generation: 23
   name: build-and-deploy
-  namespace: demo-pipeline
-  resourceVersion: '120199065'
-  selfLink: /apis/tekton.dev/v1beta1/namespaces/demo-pipeline/pipelines/build-and-deploy
-  uid: d182b0cd-30e8-4c3e-b430-81d7c4d64a9f
 spec:
   params:
     - default: ''

@@ -1,0 +1,9 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: ui-repo
+spec:
+  params:
+    - name: url
+      value: 'https://github.com/lokendrasinghmalik/DO288-apps/'
+  type: git
