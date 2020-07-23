@@ -1,13 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  creationTimestamp: '2020-07-17T07:40:00Z'
-  generation: 1
   name: promote-to-stage
-  namespace: demo-pipeline
-  resourceVersion: '120180860'
-  selfLink: /apis/tekton.dev/v1beta1/namespaces/demo-pipeline/tasks/promote-to-stage
-  uid: 011a103a-a358-46a1-bff8-f1e85e8fe988
 spec:
   params:
     - name: dev_project

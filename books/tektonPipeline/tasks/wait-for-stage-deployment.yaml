@@ -1,14 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  creationTimestamp: '2020-07-17T07:48:07Z'
-  generation: 3
   name: wait-for-stage-deployment
-  namespace: demo-pipeline
-  resourceVersion: '120196338'
-  selfLink: >-
-    /apis/tekton.dev/v1beta1/namespaces/demo-pipeline/tasks/wait-for-stage-deployment
-  uid: 82a48872-11ad-4cd3-8741-1d83da75bfb0
 spec:
   params:
     - name: app_name
