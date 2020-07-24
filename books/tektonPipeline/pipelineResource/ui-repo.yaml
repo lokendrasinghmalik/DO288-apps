@@ -5,5 +5,5 @@ metadata:
 spec:
   params:
     - name: url
-      value: 'https://github.com/lokendrasinghmalik/DO288-apps/'
+      value: 'https://github.com/lokendr/DO288-apps'
   type: git

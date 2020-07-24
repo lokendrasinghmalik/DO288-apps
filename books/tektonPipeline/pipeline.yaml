@@ -32,6 +32,8 @@ spec:
         inputs:
           - name: image
             resource: image
+      runAfter:
+        - run-unit-test
       taskRef:
         kind: Task
         name: deploy-application
@@ -81,3 +83,33 @@ spec:
       taskRef:
         kind: Task
         name: wait-for-stage-deployment
+    - name: s2i-build-image
+      params:
+        - name: VERSION
+          value: '10'
+        - name: PATH_CONTEXT
+          value: books
+        - name: TLSVERIFY
+          value: 'false'
+      resources:
+        inputs:
+          - name: source
+            resource: git-repo
+        outputs:
+          - name: image
+            resource: image
+      taskRef:
+        kind: ClusterTask
+        name: s2i-nodejs
+    - name: run-unit-test
+      resources:
+        inputs:
+          - name: git-repo
+            resource: git-repo
+          - name: image
+            resource: image
+      runAfter:
+        - s2i-build-image
+      taskRef:
+        kind: Task
+        name: run-unit-test
